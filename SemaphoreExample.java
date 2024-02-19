@@ -2,14 +2,16 @@ import java.util.concurrent.*;
 
 public class SemaphoreExample {
     static class SharedResource {
-        private final Semaphore semaphore = new Semaphore(1,false);
+        private final Semaphore semaphore;
 
         public SharedResource(int permits) {
+            semaphore = new Semaphore(2,true);
             //    יש להשלים את החסר כאן
         }
 
         public void accessResource() {
             try {
+                semaphore.acquire();
 //                יש להשלים את החסר כאן // Acquire a permit
                 System.out.println(Thread.currentThread().getName() + " is accessing the resource.");
                 // Simulating some work
@@ -17,6 +19,7 @@ public class SemaphoreExample {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
+                semaphore.release();
 //                יש להשלים את החסר כאן // Release the permit
             }
         }
@@ -32,12 +35,17 @@ public class SemaphoreExample {
 
         @Override
         public void run() {
+            while (true){
+                sharedResource.accessResource();
+            }
+
+//            System.out.println(Thread.currentThread().getName() + " is running now");
 //            יש להשלים את החסר כאן
         }
     }
 
     public static void main(String[] args) {
-        SharedResource sharedResource = new SharedResource(1); //  permits available
+        SharedResource sharedResource = new SharedResource(2); //  permits available
 
         // Create multiple threads trying to access the resource
         Thread thread1 = new Worker("Thread 1", sharedResource);
