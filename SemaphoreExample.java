@@ -6,21 +6,18 @@ public class SemaphoreExample {
 
         public SharedResource(int permits) {
             semaphore = new Semaphore(2,true);
-            //    יש להשלים את החסר כאן
         }
 
         public void accessResource() {
             try {
                 semaphore.acquire();
-//                יש להשלים את החסר כאן // Acquire a permit
                 System.out.println(Thread.currentThread().getName() + " is accessing the resource.");
-                // Simulating some work
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 semaphore.release();
-//                יש להשלים את החסר כאן // Release the permit
+
             }
         }
     }
@@ -39,8 +36,6 @@ public class SemaphoreExample {
                 sharedResource.accessResource();
             }
 
-//            System.out.println(Thread.currentThread().getName() + " is running now");
-//            יש להשלים את החסר כאן
         }
     }
 
